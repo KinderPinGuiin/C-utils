@@ -15,6 +15,8 @@
  * ##################
  */
 
+#ifdef VERBOSE
+
 /**
  * If val is less than 0 :
  * - "Error at line x" is printed with x the current line of your program. 
@@ -52,9 +54,9 @@
   do {                                                                         \
     if ((val) < 0) {                                                           \
       r = r_val;                                                               \
-      fprintf(stderr, "Error at line %d ", __LINE__);                          \
+      fprintf(stderr, "Error at line %d", __LINE__);                           \
       if (errno > 0) {                                                         \
-        perror("");                                                            \
+        perror(" ");                                                           \
         errno = 0;                                                             \
       } else {                                                                 \
         fprintf(stderr, "\n");                                                 \
@@ -76,9 +78,9 @@
 #define CHECK_ERR_AND_RETURN(val, r_val)                                       \
   do {                                                                         \
     if ((val) < 0) {                                                           \
-      fprintf(stderr, "Error at line %d ", __LINE__);                          \
+      fprintf(stderr, "Error at line %d", __LINE__);                           \
       if (errno > 0) {                                                         \
-        perror("");                                                            \
+        perror(" ");                                                           \
         errno = 0;                                                             \
       } else {                                                                 \
         fprintf(stderr, "\n");                                                 \
@@ -87,6 +89,50 @@
     }                                                                          \
   } while(0)
 
+#else
 
+/**
+ * If val is less than 0 :
+ * - Exit with the code EXIT_FAILURE.
+ * 
+ * @note Thread safe.
+ * @param val The value.
+ */
+#define CHECK_ERR_AND_EXIT(val)                                                \
+  do { if ((val) < 0) { exit(EXIT_FAILURE); } } while(0)
+
+/**
+ * If val is less than 0 :
+ * - The variable r is set to r_val.
+ * - goto the label free in your function.
+ * 
+ * @note Thread safe.
+ * @param val The value.
+ * @param r_val The return value of the function.
+ */
+#define CHECK_ERR_AND_FREE(val, r_val)                                         \
+  do {                                                                         \
+    if ((val) < 0) {                                                           \
+      r = r_val;                                                               \
+      goto free;                                                               \
+    }                                                                          \
+  } while(0)
+
+/**
+ * If val is less than 0 :
+ * - return with r_val
+ * 
+ * @note Thread safe.
+ * @param val The value.
+ * @param r_val The return value of the function.
+ */
+#define CHECK_ERR_AND_RETURN(val, r_val)                                       \
+  do {                                                                         \
+    if ((val) < 0) {                                                           \
+      return r_val;                                                            \
+    }                                                                          \
+  } while(0)
+
+#endif
 
 #endif
