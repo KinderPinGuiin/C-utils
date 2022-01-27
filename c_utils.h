@@ -19,12 +19,12 @@
  * If val is less than 0 :
  * - "Error at line x" is printed with x the current line of your program. 
  * - If errno is greater than 0 then a perror is executed.
- * - Finally, it return EXIT_FAILURE.
+ * - Finally, it exit with the code EXIT_FAILURE.
  * 
  * @note Non thread safe (Use of errno).
  * @param val The value.
  */
-#define CHECK_ERR(val)                                                         \
+#define CHECK_ERR_AND_EXIT(val)                                                \
   do {                                                                         \
     if ((val) < 0) {                                                           \
       fprintf(stderr, "Error at line %d", __LINE__);                           \
@@ -33,24 +33,25 @@
       } else {                                                                 \
         fprintf(stderr, "\n");                                                 \
       }                                                                        \
-      return EXIT_FAILURE;                                                     \
+      exit(EXIT_FAILURE);                                                      \
     }                                                                          \
   } while(0)
 
 /**
  * If val is less than 0 :
- * - The variable r is set to EXIT_FAILURE.
+ * - The variable r is set to r_val.
  * - "Error at line x" is printed with x the current line of your program. 
  * - If errno is greater than 0 then a perror is executed.
  * - goto the label free in your function.
  * 
  * @note Non thread safe (Use of errno).
  * @param val The value.
+ * @param r_val The return value of the function.
  */
-#define CHECK_ERR_AND_FREE(val)                                                \
+#define CHECK_ERR_AND_FREE(val, r_val)                                         \
   do {                                                                         \
     if ((val) < 0) {                                                           \
-      r = EXIT_FAILURE;                                                        \
+      r = r_val;                                                               \
       fprintf(stderr, "Error at line %d ", __LINE__);                          \
       if (errno > 0) {                                                         \
         perror("");                                                            \
@@ -61,5 +62,31 @@
       goto free;                                                               \
     }                                                                          \
   } while(0)
+
+/**
+ * If val is less than 0 :
+ * - "Error at line x" is printed with x the current line of your program. 
+ * - If errno is greater than 0 then a perror is executed.
+ * - return with r_val
+ * 
+ * @note Non thread safe (Use of errno).
+ * @param val The value.
+ * @param r_val The return value of the function.
+ */
+#define CHECK_ERR_AND_RETURN(val, r_val)                                       \
+  do {                                                                         \
+    if ((val) < 0) {                                                           \
+      fprintf(stderr, "Error at line %d ", __LINE__);                          \
+      if (errno > 0) {                                                         \
+        perror("");                                                            \
+        errno = 0;                                                             \
+      } else {                                                                 \
+        fprintf(stderr, "\n");                                                 \
+      }                                                                        \
+      return r_val;                                                            \
+    }                                                                          \
+  } while(0)
+
+
 
 #endif
