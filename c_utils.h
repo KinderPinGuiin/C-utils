@@ -231,6 +231,6 @@
  * @param var The variable to free.
  */
 #define SAFE_FREE(var)                                                         \
-  do { if ((var) != NULL) { free((val)); } } while(0)
+  do { if ((var) != NULL) { free((var)); } } while(0)
 
 #endif
