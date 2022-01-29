@@ -92,8 +92,10 @@
 
 /**
  * If val is equals to NULL :
- * - Print "{Variable name} is null"
  * - goto the label free of your function
+ * 
+ * @note Thread safe.
+ * @param val The variable / value to check.
  */
 #define CHECK_NULL(val)                                                        \
   do {                                                                         \
@@ -150,6 +152,9 @@
 /**
  * If val is equals to NULL :
  * - goto the label free of your function
+ * 
+ * @note Thread safe.
+ * @param val The variable / value to check.
  */
 #define CHECK_NULL(val)                                                        \
   do {                                                                         \
