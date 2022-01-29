@@ -207,4 +207,30 @@
     }                                                                          \
   } while(0)
 
+/*
+ * ###################
+ * # Memory handling #
+ * ###################
+ */
+
+/**
+ * Allocates size bytes and stock the adress to the allocated memory into var.
+ * If var is equals to NULL, then if goes to the label free of your function.
+ * 
+ * @note Thread safe.
+ * @param var The variable where to store the adress of the allocated memory.
+ * @param size The size of the allocated memory.
+ */
+#define SAFE_MALLOC(var, size)                                                 \
+  do { var = malloc((size_t) (size)); CHECK_NULL(var); } while(0)
+
+/**
+ * Free var only if his value is not NULL.
+ * 
+ * @note Thread safe.
+ * @param var The variable to free.
+ */
+#define SAFE_FREE(var)                                                         \
+  do { if ((var) != NULL) { free((val)); } } while(0)
+
 #endif
