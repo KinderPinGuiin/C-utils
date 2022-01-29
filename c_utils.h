@@ -90,6 +90,19 @@
     }                                                                          \
   } while(0)
 
+/**
+ * If val is equals to NULL :
+ * - Print "{Variable name} is null"
+ * - goto the label free of your function
+ */
+#define CHECK_NULL(val)                                                        \
+  do {                                                                         \
+    if ((val) == NULL) {                                                       \
+      fprintf(stderr, "The value of %s is null\n", #val);                      \
+      goto free;                                                               \
+    }                                                                          \
+  } while(0)
+
 #else
 
 /**
@@ -131,6 +144,17 @@
   do {                                                                         \
     if ((val) < 0) {                                                           \
       return r_val;                                                            \
+    }                                                                          \
+  } while(0)
+
+/**
+ * If val is equals to NULL :
+ * - goto the label free of your function
+ */
+#define CHECK_NULL(val)                                                        \
+  do {                                                                         \
+    if ((val) == NULL) {                                                       \
+      goto free;                                                               \
     }                                                                          \
   } while(0)
 
