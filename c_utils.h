@@ -147,6 +147,17 @@
     }                                                                          \
   } while(0)
 
+/**
+ * If val is equals to NULL :
+ * - goto the label free of your function
+ */
+#define CHECK_NULL(val)                                                        \
+  do {                                                                         \
+    if ((val) == NULL) {                                                       \
+      goto free;                                                               \
+    }                                                                          \
+  } while(0)
+
 #endif
 
 /*
